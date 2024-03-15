@@ -35,6 +35,7 @@ class _CreateAccountState extends State<CreateAccount> {
         email: _emailController.text.trim(),
         password: _passController.text.trim(),
       );
+      await userCredential.user!.sendEmailVerification();
 
       Navigator.pushReplacement(
         context,

@@ -125,30 +125,36 @@ class _LoginFormState extends State<LoginForm> {
 
 
   Future<void> _signInWithEmailAndPassword() async {
-    try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-      );
-
-      // If login is successful, navigate to the landing page
+  try {
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text,
+    );
+    
+    if (userCredential.user != null && userCredential.user!.emailVerified) {
+      // If login is successful and email is verified, navigate to the landing page
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LandingScreen()),
       );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        _showError('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        _showError('Wrong password provided for that user.');
-      } else {
-        _showError('Error signing in, please try again later.');
-      }
-    } catch (e) {
+    } else {
+      // If email is not verified, show an error message
+      _showError('Please verify your email before logging in.');
+    }
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      _showError('No user found for that email.');
+    } else if (e.code == 'wrong-password') {
+      _showError('Wrong password provided for that user.');
+    } else {
       _showError('Error signing in, please try again later.');
     }
+  } catch (e) {
+    _showError('Error signing in, please try again later.');
   }
+}
+
 
   void _showError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
