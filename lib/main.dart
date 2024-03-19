@@ -4,6 +4,8 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:plant_disease_detector/controllers/bindings/auth_binding.dart';
 import 'package:plant_disease_detector/pages/login/login_screen.dart';
+import 'package:plant_disease_detector/pages/login/search_screen.dart';
+import 'package:plant_disease_detector/pages/login/search_results.dart';
 import 'package:plant_disease_detector/pages/splash_screen.dart';
 import 'pages/app_intro_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -41,15 +43,15 @@ class MyApp extends StatelessWidget {
           name: LoginScreen.routeName,
           page: () => const LoginScreen(),
         ),
-        //  GetPage(
-        //   name: HomeScreen.routeName,
-        //   page: () => const HomeScreen(),
-        //   binding: HomeBinding(),
-        //  ),
-        //  GetPage(
-        //   name: DashboardScreen.routeName,
-        //   page: () => const DashboardScreen(),
+        GetPage(
+           name: SearchScreen.routeName,
+           page: () => const SearchScreen(),           
+        ), 
+        // GetPage(
+        //   name: SearchResultScreen.routeName,
+        //   page: () => SearchResultScreen(searchResults: []), 
         // ),
+       
         
       ],
     );
