@@ -164,7 +164,7 @@ class SearchScreen extends StatelessWidget {
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green[900]!),
+                      backgroundColor: MaterialStateProperty.all<Color>(  Color.fromARGB(255, 226, 100, 123)!),
                     ),
                     child: Text('Search', style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
@@ -174,7 +174,7 @@ class SearchScreen extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: Colors.lightGreen[100],
+      backgroundColor: Color.fromARGB(255, 251, 250, 250),
     );
   }
 

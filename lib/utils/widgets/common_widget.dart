@@ -389,6 +389,141 @@ class CustomTextField extends StatelessWidget {
   }
 }
 
+class CustomTextFieldAlt extends StatelessWidget {
+  const CustomTextFieldAlt({
+    Key? key,
+    required TextEditingController controller,
+    FocusNode? focusNode,
+    TextInputType? keyboardType,
+    this.maxLines = 1,
+    this.hintText,
+    this.labelText,
+    this.borderColor,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.fillColor,
+    this.requiredStarColor,
+    this.onChanged,
+    this.borderRadius,
+    this.verticalMargin,
+    this.horizontalMargin,
+    this.horizontalPadding,
+    this.verticalPadding,
+    this.textFieldHeight,
+    this.textFieldHorizontalContentPadding,
+    this.textFieldVerticalContentPadding,
+    this.labelTextFontSize,
+    this.onEditingComplete,
+    this.hintTextStyle,
+    this.inputFormatters,
+    this.isLabelExist = false,
+    this.isRequired = false,
+    this.isOuterBorderExist = false,
+    this.isObsecured = false,
+  })  : _controller = controller,
+        _focusNode = focusNode,
+        keyboardType = keyboardType ??
+            (maxLines == 1 ? TextInputType.text : TextInputType.multiline),
+        super(key: key);
+
+  final TextEditingController _controller;
+  final FocusNode? _focusNode;
+  final String? hintText;
+  final String? labelText;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final Color? fillColor;
+  final Color? borderColor;
+  final Color? requiredStarColor;
+  final TextInputType? keyboardType;
+  final int? maxLines;
+  final TextStyle? hintTextStyle;
+  final ValueChanged<String>? onChanged;
+  final Function()? onEditingComplete;
+  final BorderRadius? borderRadius;
+  final bool isLabelExist;
+  final bool? isRequired;
+  final bool? isOuterBorderExist;
+  final bool? isObsecured;
+  final double? verticalMargin,
+      horizontalMargin,
+      horizontalPadding,
+      verticalPadding,
+      textFieldHeight,
+      textFieldHorizontalContentPadding,
+      textFieldVerticalContentPadding,
+      labelTextFontSize;
+  final List<TextInputFormatter>? inputFormatters;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: horizontalMargin ?? 0, vertical: verticalMargin ?? 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            // padding: EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.only(
+              left: 20,
+              right: 20,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            child: TextFormField(
+              controller: _controller,
+              focusNode: _focusNode,
+              obscureText: isObsecured ?? false,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+              keyboardType: keyboardType,
+              maxLines: maxLines,
+              inputFormatters: inputFormatters,
+              decoration: InputDecoration(
+                prefixIcon: prefixIcon,
+                suffixIcon: suffixIcon,
+                fillColor: fillColor ?? Colors.white,
+                hintText: hintText ?? '',
+                hintStyle: hintTextStyle,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.3)),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Colors.black,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                labelText: labelText,
+                labelStyle: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
+                border: const OutlineInputBorder(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     Key? key,

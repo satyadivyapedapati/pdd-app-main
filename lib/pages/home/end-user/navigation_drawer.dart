@@ -13,6 +13,22 @@ class NavigationDrawer extends StatelessWidget {
             child: Text('Drawer Header'),
           ),
           ListTile(
+            title: Text('About Us'),
+            onTap: () {
+              BlocProvider.of<NavigationBloc>(context)
+                  .add(NavigationEvents.SearchClickedEvent);
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: Text('Contact Us'),
+            onTap: () {
+              BlocProvider.of<NavigationBloc>(context)
+                  .add(NavigationEvents.SearchClickedEvent);
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
             title: Text('Logout'),
             onTap: () {
               BlocProvider.of<NavigationBloc>(context)
@@ -28,6 +44,7 @@ class NavigationDrawer extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
+          
         ],
       ),
     );
