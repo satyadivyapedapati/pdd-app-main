@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:plant_disease_detector/pages/home/image_picker.dart';
 import 'package:plant_disease_detector/pages/login/login_screen.dart';
 import 'package:plant_disease_detector/pages/login/search_screen.dart';
+import 'package:plant_disease_detector/pages/home/about_us.dart';
+import 'package:plant_disease_detector/pages/home/contact_info.dart';
+
+
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({Key? key}) : super(key: key);
@@ -215,7 +219,7 @@ class NavigationDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.green[900],
+              color: Color.fromARGB(255, 226, 100, 123),
             ),
             child: Text(
               'Welcome',
@@ -225,18 +229,31 @@ class NavigationDrawer extends StatelessWidget {
               ),
             ),
           ),
+          
           ListTile(
-            title: Text('Logout'),
-            onTap: () {
-              Navigator.pushNamed(context, LoginScreen.routeName); 
+            title: Text('About Us',style: TextStyle(color: Colors.black),),
+            onTap: () {              
+              Navigator.pushNamed(context, AboutUs.routeName);               
             },
           ),
           ListTile(
-            title: Text('Search'),
+            title: Text('Contact Us',style: TextStyle(color: Colors.black),),
+            onTap: () {              
+              Navigator.pushNamed(context, ContactInfo.routeName);               
+            },
+          ),
+          ListTile(
+            title: Text('Search',style: TextStyle(color: Colors.black),),
             onTap: () {              
               Navigator.pushNamed(context, SearchScreen.routeName);               
             },
           ),
+          ListTile(
+            title: Text('Logout',style: TextStyle(color: Colors.black),),
+            onTap: () {
+              Navigator.pushNamed(context, LoginScreen.routeName); 
+            },
+          ),          
         ],
       ),
     );

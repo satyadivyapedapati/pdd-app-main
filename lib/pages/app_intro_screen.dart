@@ -143,7 +143,7 @@ class _AppIntroScreenState extends State<AppIntroScreen> {
                           builder: (context) =>
                               //  VerifyScreen()
                               // ForgetScreen()
-                              const LandingScreen(),
+                              const ImagePickerScreen(),
                         ),
                       );
                     },

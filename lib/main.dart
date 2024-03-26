@@ -5,7 +5,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:plant_disease_detector/controllers/bindings/auth_binding.dart';
 import 'package:plant_disease_detector/pages/login/login_screen.dart';
 import 'package:plant_disease_detector/pages/login/search_screen.dart';
-import 'package:plant_disease_detector/pages/login/search_results.dart';
+import 'package:plant_disease_detector/pages/home/contact_info.dart';
+import 'package:plant_disease_detector/pages/home/about_us.dart';
 import 'package:plant_disease_detector/pages/splash_screen.dart';
 import 'pages/app_intro_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,6 +47,14 @@ class MyApp extends StatelessWidget {
         GetPage(
            name: SearchScreen.routeName,
            page: () => const SearchScreen(),           
+        ), 
+        GetPage(
+           name: AboutUs.routeName,
+           page: () => const AboutUs(),           
+        ),
+        GetPage(
+           name: ContactInfo.routeName,
+           page: () => const ContactInfo(),           
         ), 
         // GetPage(
         //   name: SearchResultScreen.routeName,
