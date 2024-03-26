@@ -126,7 +126,7 @@ class _LoginFormState extends State<LoginForm> {
                 child: const Text(
                   'Continue With Google',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 221, 2, 2),
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -267,7 +267,7 @@ class _LoginFormState extends State<LoginForm> {
         onPressed: _signInWithEmailAndPassword,
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.zero,
-          backgroundColor: Colors.blue.shade800,
+          backgroundColor: const Color.fromARGB(255, 226, 100, 123),
         ),
         child: const TitleText(
           title: "Login",
@@ -309,189 +309,217 @@ class _LoginFormState extends State<LoginForm> {
               _showError('There was an error while signing in with google.');
             }
           },
-          style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.zero,
-            backgroundColor: Colors.grey.shade100,
+        style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.zero,
+        backgroundColor: const Color.fromARGB(255, 226, 100, 123), // Blue background color
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              'Continue With Google',
+              style: TextStyle(
+                color: Colors.white, // White font color
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Image.asset('assets/images/google-logo.png'),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              const Text(
-                'Continue With Google',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              // const Text(
+              //   'Continue With Google',
+              //   style: TextStyle(
+              //     color: Colors.black,
+              //     fontSize: 16,
+              //     fontWeight: FontWeight.w600,
+              //   ),
+              // ),
             ],
           )),
     );
   }
 
-  Widget _altSafeArea() {
-    return SingleChildScrollView(
+ Widget _altSafeArea() {
+  return SingleChildScrollView(
+    child: Container(
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/1.jpg"), // Your background image path
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+            Colors.white.withOpacity(0.8), // Adjust the opacity here
+            BlendMode.darken,
+          ),
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 48,
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: 30,
+          SizedBox(height: 48),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.5), // White background with opacity
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ],
             ),
-            child: Text(
-              'Login',
-              textAlign: TextAlign.start,
-              style: GoogleFonts.gabarito(
-                fontWeight: FontWeight.w800,
-                fontSize: 40,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: 30,
-            ),
-            child: Text(
-              'Welcome to ORCHARD GUARD',
-              textAlign: TextAlign.start,
-              style: GoogleFonts.gabarito(
-                fontWeight: FontWeight.w600,
-                fontSize: 18,
-                color: Colors.grey.shade700,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 48,
-          ),
-          CustomTextFieldAlt(
-            controller: _emailController,
-            labelText: 'Email',
-            hintText: 'Enter your email',
-            isRequired: true,
-            prefixIcon: const Icon(Icons.email_outlined),
-          ),
-          CustomTextFieldAlt(
-            controller: _passwordController,
-            isObsecured: !passwordVisible,
-            labelText: 'Password',
-            isRequired: true,
-            prefixIcon: const Icon(Icons.lock_outline),
-            suffixIcon: IconButton(
-              icon: Icon(
-                  passwordVisible ? Icons.visibility : Icons.visibility_off),
-              onPressed: () {
-                setState(() {
-                  passwordVisible = !passwordVisible;
-                });
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ForgetScreen(),
-                  ),
-                );
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Forgot Password',
-                    textAlign: TextAlign.end,
-                    style: GoogleFonts.gabarito(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: Colors.indigo.shade600,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Text(
+                      'Login',
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.gabarito(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 40,
+                        color: Colors.black, // Change color here
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+                    child: Text(
+                      'Welcome to ORCHARD GUARD',
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.gabarito(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                        color: const Color.fromARGB(255, 129, 56, 56),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  CustomTextFieldAlt(
+                    controller: _emailController,
+                    labelText: 'Email',
+                    hintText: 'Enter your email',
+                    isRequired: true,
+                    prefixIcon: const Icon(Icons.email_outlined),
+                  ),
+                  const SizedBox(height: 12),
+                  CustomTextFieldAlt(
+                    controller: _passwordController,
+                    isObsecured: !passwordVisible,
+                    labelText: 'Password',
+                    isRequired: true,
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        passwordVisible ? Icons.visibility : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          passwordVisible = !passwordVisible;
+                        });
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  _sizedBoxBtnSignIn(),
+                  const SizedBox(height: 16),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(child: Divider()),
+                        SizedBox(width: 8),
+                        Text("OR"),
+                        SizedBox(width: 8),
+                        Expanded(child: Divider()),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _sizedBoxBtnGoogle(),
+                  const SizedBox(height: 16),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgetScreen(),
+                        ),
+                      );
+                    },
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        text: "Forgot your password? ",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          color: Colors.black45,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Reset here',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.8, // Adjust width here
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CreateAccount(),
+                          ),
+                        );
+                      },
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          text: "Don't you have an account? ",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: Colors.black45,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'Sign up',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ],
-            ),
-            child: _sizedBoxBtnSignIn(),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 30,
-            ),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: Divider()),
-                SizedBox(
-                  width: 8,
-                ),
-                Text("OR"),
-                SizedBox(
-                  width: 8,
-                ),
-                Expanded(child: Divider()),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ],
-            ),
-            child: _sizedBoxBtnGoogle(),
           )
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -499,40 +527,40 @@ class _LoginFormState extends State<LoginForm> {
         ? _oldScaffold()
         : Scaffold(
             body: SafeArea(child: _altSafeArea()),
-            bottomNavigationBar: BottomAppBar(
-              elevation: 0,
-              color: Colors.transparent,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CreateAccount(),
-                    ),
-                  );
-                },
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: "Already have an account? ",
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18,
-                        color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: 'Signup here',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
+            // bottomNavigationBar: BottomAppBar(
+            //   elevation: 0,
+            //   color: Colors.transparent,
+            //   child: GestureDetector(
+            //     onTap: () {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //           builder: (context) => const CreateAccount(),
+            //         ),
+            // //       );
+            //     },
+                // child: RichText(
+                //   textAlign: TextAlign.center,
+                //   text: TextSpan(
+                //     text: "Don't you have Account? ",
+                //     style: const TextStyle(
+                //         fontWeight: FontWeight.w500,
+                //         fontSize: 18,
+                //         color: Colors.black),
+                //     children: [
+                //       TextSpan(
+                //         text: 'Signup here',
+                //         style: TextStyle(
+                //           fontSize: 18,
+                //           fontWeight: FontWeight.bold,
+                //           color: Theme.of(context).primaryColor,
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+              );
+          //   ),
+          // );
   }
 }

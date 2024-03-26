@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -114,7 +113,6 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffff0266),
       appBar: AppBar(
         title: Row(
           children: [
@@ -153,151 +151,165 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
         centerTitle: true,
       ),
       drawer: const NavigationDrawer(),
-      body: Container(
-        margin: EdgeInsets.all(8),
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.red,
-          ),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(20),
-          ),
-          color: Colors.white.withOpacity(0.9),
-        ),
-        child: Column(
-          children: [
-            Text(
-              'Upload Image for Recognition',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.gabarito(
-                fontWeight: FontWeight.w700,
-                fontSize: 28,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.7,
+              child: Image.asset(
+                'assets/images/1.jpg',
+                fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text(
-              'Select an image of apple leaves or fruit',
-              style: GoogleFonts.gabarito(
-                fontSize: 16,
+          ),
+          Container(
+            margin: EdgeInsets.all(8),
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.red,
               ),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(20),
+              ),
+              color: Colors.white.withOpacity(0.6),
             ),
-            const SizedBox(
-              height: 8,
-            ),
-            ElevatedButton.icon(
-              onPressed: () => _getImage(ImageSource.gallery),
-              label: const Text('Choose File'),
-              icon: const Icon(Icons.image),
-            ),
-            ElevatedButton.icon(
-              onPressed: () => _getImage(ImageSource.camera),
-              label: const Text('Take Photo'),
-              icon: const Icon(Icons.camera_alt_outlined),
-            ),
-            if (image != null)
-              Expanded(
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Image.file(
-                        File(image!.path),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    if (image != null && !isPredictPressed)
-                      SizedBox(
-                        width: 150,
-                        child: ElevatedButton(
-                          onPressed: () => _predict(),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Colors.green.shade700),
-                          ),
-                          child: Text(
-                            'Predict',
-                            style: GoogleFonts.gabarito(
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
+            child: Column(
+              children: [
+                Text(
+                  'Upload Image for Recognition',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.gabarito(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 28,
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  'Select an image of apple leaves or fruit',
+                  style: GoogleFonts.gabarito(
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                ElevatedButton.icon(
+                  onPressed: () => _getImage(ImageSource.gallery),
+                  label: const Text('Choose File'),
+                  icon: const Icon(Icons.image),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () => _getImage(ImageSource.camera),
+                  label: const Text('Take Photo'),
+                  icon: const Icon(Icons.camera_alt_outlined),
+                ),
+                if (image != null)
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Image.file(
+                            File(image!.path),
+                            fit: BoxFit.contain,
                           ),
                         ),
-                      ),
-                    if (_recognitions != null &&
-                        _recognitions!.isNotEmpty &&
-                        isPredictPressed)
-                      Column(
-                        children: [
-                          for (final recognition in _recognitions!)
-                            Column(
-                              children: [
-                                ListTile(
-                                  title: Text(
-                                    ' Result:',
-                                    style: GoogleFonts.gabarito(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    '${recognition['label']} (${(recognition['confidence'] * 100).toStringAsFixed(2)}%)',
-                                    style: GoogleFonts.gabarito(
-                                      fontSize: 14,
-                                    ),
-                                  ),
+                        if (image != null && !isPredictPressed)
+                          SizedBox(
+                            width: 150,
+                            child: ElevatedButton(
+                              onPressed: () => _predict(),
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors
+.green.shade700),
+                              ),
+                              child: Text(
+                                'Predict',
+                                style: GoogleFonts.gabarito(
+                                  fontSize: 16,
+                                  color: Colors.white,
                                 ),
-                                ListTile(
-                                  title: Text(
-                                    ' Description:',
-                                    style: GoogleFonts.gabarito(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    getDescription(recognition['label']),
-                                    style: GoogleFonts.gabarito(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                        ],
-                      ),
-                    if ((_recognitions == null || _recognitions!.isEmpty) &&
-                        isPredictPressed)
-                      const Text(
-                        'Image not matched',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        setState(() {
-                          image = null;
-                          _recognitions = null;
-                          isPredictPressed = false;
-                        });
-                      },
-                      label: const Text('Remove Image'),
-                      icon: const Icon(Icons.close),
-                    )
-                  ],
-                ),
-              )
-            else
-              const SizedBox(),
-          ],
-        ),
+                          ),
+                        if (_recognitions != null &&
+                            _recognitions!.isNotEmpty &&
+                            isPredictPressed)
+                          Column(
+                            children: [
+                              for (final recognition in _recognitions!)
+                                Column(
+                                  children: [
+                                    ListTile(
+                                      title: Text(
+                                        ' Result:',
+                                        style: GoogleFonts.gabarito(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      subtitle: Text(
+                                        '${recognition['label']} (${(recognition['confidence'] * 100).toStringAsFixed(2)}%)',
+                                        style: GoogleFonts.gabarito(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: Text(
+                                        ' Description:',
+                                        style: GoogleFonts.gabarito(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      subtitle: Text(
+                                        getDescription(recognition['label']),
+                                        style: GoogleFonts.gabarito(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                            ],
+                          ),
+                        if ((_recognitions == null || _recognitions!.isEmpty) &&
+                            isPredictPressed)
+                          const Text(
+                            'Image not matched',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              image = null;
+                              _recognitions = null;
+                              isPredictPressed = false;
+                            });
+                          },
+                          label: const Text('Remove Image'),
+                          icon: const Icon(Icons.close),
+                        )
+                      ],
+                    ),
+                  )
+                else
+                  const SizedBox(),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
 class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({super.key});
+  const NavigationDrawer({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -328,7 +340,6 @@ class NavigationDrawer extends StatelessWidget {
               );
             },
           ),
-          
           ListTile(
             title: const Text('About Us'),
             onTap: () {
