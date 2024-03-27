@@ -3,11 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:plant_disease_detector/pages/login/search_results.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
   static const String routeName = '/search';
 
-  // Update this with your actual API endpoint
+  @override
+  _SearchScreenState createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController acnoController = TextEditingController();
+  TextEditingController accessionController = TextEditingController();
+  TextEditingController cultivatorNameController = TextEditingController();
+  TextEditingController pedigreeController = TextEditingController();
+  TextEditingController genusController = TextEditingController();
+  TextEditingController speciesController = TextEditingController();
+  TextEditingController breederController = TextEditingController();
+  String queryOperator = 'OR'; // Default query operator
+
   static const String apiUrl = 'https://search-orchard-guard-u3idobrg65ufwwpx3q4j4eesk4.us-east-1.es.amazonaws.com/_search';
 
   Future<List<Map<String, dynamic>>> fetchData(Map<String, dynamic> searchData) async {
@@ -32,15 +46,6 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-    TextEditingController acnoController = TextEditingController();
-    TextEditingController accessionController = TextEditingController();
-    TextEditingController cultivatorNameController = TextEditingController();
-    TextEditingController pedigreeController = TextEditingController();
-    TextEditingController genusController = TextEditingController();
-    TextEditingController speciesController = TextEditingController();
-    TextEditingController breederController = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Search Screen'),
@@ -141,12 +146,42 @@ class SearchScreen extends StatelessWidget {
                         style: TextStyle(fontSize: 18),
                       ),
                       const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                queryOperator = 'OR';
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: queryOperator == 'OR' ? Colors.green : Colors.transparent,
+                             // onPrimary: queryOperator == 'OR' ? Colors.white : Colors.black,
+                            ),
+                            child: Text('OR'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                queryOperator = 'AND';
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: queryOperator == 'AND' ? Colors.green : Colors.transparent,
+                             // onPrimary: queryOperator == 'AND' ? Colors.white : Colors.black,
+                            ),
+                            child: Text('AND'),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
                       Center(
                         child: ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               final Map<String, dynamic> searchData = {
-                                "size": 20,
+                                "size": 100,
                                 "query": {
                                   "query_string": {
                                     "query": _buildSearchQuery(
@@ -157,6 +192,7 @@ class SearchScreen extends StatelessWidget {
                                       genus: genusController.text,
                                       species: speciesController.text,
                                       breeder: breederController.text,
+                                      operator: queryOperator,
                                     ),
                                   }
                                 }
@@ -187,8 +223,10 @@ class SearchScreen extends StatelessWidget {
                             backgroundColor: MaterialStateProperty.all<Color>(
                               Color.fromARGB(255, 226, 100, 123),
                             ),
+                            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                           ),
-                          child: Text('Search', style: TextStyle(fontSize: 18, color: Colors.white)),
+                         
+                          child: Text('Search', style: TextStyle(fontSize: 18)),
                         ),
                       ),
                     ],
@@ -204,13 +242,14 @@ class SearchScreen extends StatelessWidget {
 
   // Function to build the search query
   String _buildSearchQuery({
-    String acno = '',
-    String accession = '',
-    String cultivatorName = '',
-    String pedigree = '',
-    String genus = '',
-    String species = '',
-    String breeder = '',
+    required String acno,
+    required String accession,
+    required String cultivatorName,
+    required String pedigree,
+    required String genus,
+    required String species,
+    required String breeder,
+    required String operator,
   }) {
     List<String> queryParts = [];
     if (acno.isNotEmpty) queryParts.add('acno:"$acno"');
@@ -221,6 +260,8 @@ class SearchScreen extends StatelessWidget {
     if (species.isNotEmpty) queryParts.add('e_species:"$species"');
     if (breeder.isNotEmpty) queryParts.add('e_breeder_or_collector:"$breeder"');
 
-    return queryParts.join(' OR ');
+    String finalQuery = queryParts.join(' $operator ');
+
+    return finalQuery;
   }
 }
